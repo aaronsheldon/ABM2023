@@ -47,7 +47,7 @@ application.post(
         }
         response.status(200);
         response.json({ values: numbers.data });
-        console.log("Get numbers.");
+        console.log("Push number.");
     }
 );
 
