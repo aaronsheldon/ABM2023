@@ -4,5 +4,5 @@ application that demonstrates a basic model-view-controller architecture using o
 language constructs in both NodeJS and ECMAScript. The project is intended to illustrate a
 clean separation of concerns between data, presentation, and behavior.
 * Data is handled by RESTful APIs written in NodeJS
-* Presentation is handled by by HTML and CSS in the client
+* Presentation is handled by HTML and CSS in the client
 * Behavior is handle by ECMAScript in the client.
