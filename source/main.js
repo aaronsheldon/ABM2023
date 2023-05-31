@@ -1,10 +1,12 @@
 // Load package
 const express = require("express");
 const files = require("fs");
+const crypto = require("crypto");
 
 // Instantiate
 const application = express();
 const numbers = {};
+const users = {};
 
 // Load data
 files.readFile(
@@ -14,7 +16,17 @@ files.readFile(
         console.log("Numbers database read.");
     }
 );
-//
+
+//Load Email and Password data
+files.readFile(
+    __dirname + "/../data/users.json",
+    (_, data) => {
+        Object.assign(users, JSON.parse(data));
+        console.log("Email and Password database read.");
+        
+    }
+)
+
 // API parser
 application.use(
     "/api",
@@ -47,14 +59,49 @@ application.post(
         }
         response.status(200);
         response.json({ values: numbers.data });
-        console.log("Push number.");
+        console.log("Push number."); 
+    }
+);
+
+//Push Email and Password
+application.post(
+    "/api/user",
+    (request, response) => {
+        var hash = crypto.createHash('md5').update(request.body.value2).digest('hex');
+        var credentials = users.data.find(e => e.email === request.body.value1);
+
+        if (credentials == undefined) {
+                numbers.data.push({email: request.body.value1, password: hash});
+                files.writeFile(
+                    __dirname + "/../data/users.json",
+                    JSON.stringify(users, null, 4),
+                    (_) => {
+                        console.log("Credentials database saved.");
+                    }
+                );
+                response.json({ datacred: "Credentials Created"});
+                console.log("Emails don't match.");
+        }else {
+                var passworddata = credentials.password;
+
+                if(passworddata == hash) {
+                        response.json({ datacred: "Credentials Valid"});
+                        console.log("Emails and Password Hashes match.");
+                }else {
+                        response.json({ datacred: "Credentials Invalid"});
+                        console.log("Password Hashs do not match.");
+                }
+        }
+        response.status(200);
+        console.log("Post Email and Password.");
     }
 );
 
 // Root path
 application.use(
     "/",
-    express.static(__dirname + "/public")
+    express.static(__dirname + "/public"),
+    
 );
 
 // Not Found
