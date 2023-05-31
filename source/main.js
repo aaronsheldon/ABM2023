@@ -42,7 +42,8 @@ application.get(
     }
 );
 
-// Push number
+// Push number expects JSON as
+// { value: 0123456789 }
 application.post(
     "/api/number",
     (request, response) => {
@@ -58,19 +59,31 @@ application.post(
         }
         response.status(200);
         response.json({ values: numbers.data });
-        console.log("Push number."); 
+        console.log("Push number.");
     }
 );
 
-//Push Email and Password
-/*application.post(
+// Push Email and Password expect the JSON to be formatted as
+//{
+//    email: "some@email.srv",
+//    password: "somepassword"
+//}
+application.post(
     "/api/user",
     (request, response) => {
-        var hash = crypto.createHash('md5').update(request.body.value2).digest('hex');
-        var credentials = users.data.find(e => e.email === request.body.value1);
 
-        if (credentials == undefined) {
-                users.data.push({email: request.body.value1, password: hash});
+        // Sanitize input
+        const email = typeof request.body.email == "string" ? request.body.email : "";
+        const hash = typeof request.body.password == "string" ? crypto.createHash('md5').update(request.body.password).digest("base64"): "";
+        const credentials = users.data.find((e) => { return e.email == email; });
+
+        // Create new user
+        if (!credentials) {
+                const user = {
+                    email: email,
+                    password: hash
+                };
+                users.data.push(user);
                 files.writeFile(
                     __dirname + "/../data/users.json",
                     JSON.stringify(users, null, 4),
@@ -78,23 +91,26 @@ application.post(
                         console.log("Credentials database saved.");
                     }
                 );
-                response.json({ datacred: "Credentials Created"});
-                console.log("Emails don't match.");
-        } else {
-                var passworddata = credentials.password;
-
-                if(passworddata == hash) {
-                        response.json({ datacred: "Credentials Valid"});
-                        console.log("Emails and Password Hashes match.");
-                }else {
-                        response.json({ datacred: "Credentials Invalid"});
-                        console.log("Password Hashs do not match.");
-                }
+                response.status(200);
+                response.json({ status: "Credentials Created" });
+                console.log("User created.");
         }
-        response.status(200);
-        console.log("Post Email and Password.");
+
+        // Log the user in
+        else if (credentials.password == hash) {
+            response.status(200);
+            response.json({ status: "Credentials Valid" });
+            console.log("User logged in.");
+        }
+
+        // Bad password
+        else {
+            response.status(200);
+            response.json({ status: "Credentials Invalid" });
+            console.log("User login failed.")
+        }
     }
-);*/
+);
 
 // Root path
 application.use(
@@ -102,7 +118,6 @@ application.use(
     express.static(
         __dirname + "/public",
         { extensions: [ "html" ] }
-    )
 );
 
 // Not Found
