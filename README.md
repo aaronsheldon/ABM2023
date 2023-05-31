@@ -5,4 +5,4 @@ shelf language constructs in both NodeJS and ECMAScript. The project is intended
 illustrate a clean separation of concerns between data, presentation, and behavior.
 * Data is handled by RESTful APIs written in NodeJS
 * Presentation is handled by HTML and CSS in the client
-* Behavior is handle by ECMAScript in the client.
+* Behavior is handled by ECMAScript in the client.
