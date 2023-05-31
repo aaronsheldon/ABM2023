@@ -2,9 +2,9 @@
   "name": "abm2023",
   "version": "1.0.0",
   "description": "ABM 2023 Practicum Project",
-  "main": "source/index.js",
+  "main": "source/user.js",
   "scripts": {
-    "test": "node source/index.js"
+    "test": "node source/user.js"
   },
   "author": "Brandon",
   "license": "MIT",

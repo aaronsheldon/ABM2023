@@ -5,17 +5,17 @@ const crypto = require("crypto");
 
 // Instantiate
 const application = express();
-const numbers = {};
+//const numbers = {};
 const users = {};
 
 // Load data
-files.readFile(
-    __dirname + "/../data/numbers.json",
-    (_, data) => {
-        Object.assign(numbers, JSON.parse(data));
-        console.log("Numbers database read.");
-    }
-);
+//files.readFile(
+    //__dirname + "/../data/numbers.json",
+    //(_, data) => {
+        //Object.assign(numbers, JSON.parse(data));
+        //console.log("Numbers database read.");
+    //}
+///);
 
 //Load Email and Password data
 files.readFile(
@@ -34,34 +34,34 @@ application.use(
 );
 
 // List numbers
-application.get(
-    "/api/numbers",
-    (request, response) => {
-        response.status(200);
-        response.json({ values: numbers.data });
-        console.log("Get numbers.");
-    }
-);
+//application.get(
+    //"/api/numbers",
+    //(request, response) => {
+        //response.status(200);
+        //response.json({ values: numbers.data });
+        //console.log("Get numbers.");
+    //}
+//);
 
 // Push number
-application.post(
-    "/api/number",
-    (request, response) => {
-        if (isFinite(request.body.value) && numbers.data.length < 1024) {
-            numbers.data.push(Number(request.body.value));
-            files.writeFile(
-                __dirname + "/../data/numbers.json",
-                JSON.stringify(numbers, null, 4),
-                (_) => {
-                    console.log("Numbers database saved.");
-                }
-            );
-        }
-        response.status(200);
-        response.json({ values: numbers.data });
-        console.log("Push number."); 
-    }
-);
+//application.post(
+    //"/api/number",
+    //(request, response) => {
+        //if (isFinite(request.body.value) && numbers.data.length < 1024) {
+            //numbers.data.push(Number(request.body.value));
+            //files.writeFile(
+                //__dirname + "/../data/numbers.json",
+                //JSON.stringify(numbers, null, 4),
+                //(_) => {
+                    //console.log("Numbers database saved.");
+                //}
+            //);
+        //}
+        //response.status(200);
+        //response.json({ values: numbers.data });
+        //console.log("Push number."); 
+    //}
+//);
 
 //Push Email and Password
 application.post(
@@ -71,7 +71,7 @@ application.post(
         var credentials = users.data.find(e => e.email === request.body.value1);
 
         if (credentials == undefined) {
-                numbers.data.push({email: request.body.value1, password: hash});
+                users.data.push({email: request.body.value1, password: hash});
                 files.writeFile(
                     __dirname + "/../data/users.json",
                     JSON.stringify(users, null, 4),

@@ -1,4 +1,4 @@
-(
+/*(
     async () => {
         window.addEventListener(
             "load",
@@ -44,4 +44,4 @@
             }
         );
     }
-)();
+)();*/
