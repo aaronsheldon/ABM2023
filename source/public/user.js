@@ -32,11 +32,14 @@
                         };
 
                         // Dispatch to api
-                        fetch("api/users", options)
+                        fetch("api/user", options)
                         .then((response) => { return response.json();})
                         .then(
                             (data) => {
-                                statusoutput.appendChild(document.createElement("p").appendChild(document.createTextNode(data.status)));
+                                const paragraph = document.createElement("p");
+                                const text = document.createTextNode(data.status);
+                                paragraph.appendChild(text);
+                                statusoutput.appendChild(paragraph);
                             }
                         )
                     }
