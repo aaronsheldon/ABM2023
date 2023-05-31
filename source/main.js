@@ -118,6 +118,7 @@ application.use(
     express.static(
         __dirname + "/public",
         { extensions: [ "html" ] }
+    )
 );
 
 // Not Found

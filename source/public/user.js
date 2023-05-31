@@ -3,61 +3,42 @@
         window.addEventListener(
             "load",
             (_) => {
-                //Element handles
+
+                // Element handles
                 const emailinput = document.getElementById("emailinput");
                 const passwordinput = document.getElementById("passwordinput");
+                const submitinput = document.getElementById("submitinput");
+                const statusoutput = document.getElementById("statusoutput");
 
-                //Handle email credential inputs
-                emailinput.addEventListener(
+                // Handle email credential inputs
+                submitinput.addEventListener(
                     'click',
                     (event) => {
-                        //Sanity check email before posting to api
+
+                        // Sanity check email before posting to api
+                        const payload = {
+                            email: emailinput.value || "",
+                            password: passwordinput.value || ""
+                        };
+
+                        // Build the fetch
                         const options = {
                             method: "POST",
                             headers: {
                                 "Accept": "application/json",
                                 "content-Type": "application/json"
                             },
-                            body: JSON.stringify({value1: event.target.value})
-                        }
+                            body: JSON.stringify(payload)
+                        };
 
-                        //Dispatch to api
+                        // Dispatch to api
                         fetch("api/users", options)
                         .then((response) => { return response.json();})
                         .then(
                             (data) => {
-                                while (emailinput.firstChild) {emailinput.removeChild(emailinput.firstChild);}
-                                data.email.foreach((v) => {emailinput.insertRow().insertCell().append(v.toString());});
+                                statusoutput.appendChild(document.createElement("p").appendChild(document.createTextNode(data.status)));
                             }
                         )
-
-                    }
-                )
-
-                //Handle password credential inputs
-                passwordinput.addEventListener(
-                    'click',
-                    (event) => {
-                        //Sanity check password before posting to api
-                        const options = {
-                            mehtod: "POST",
-                            headers: {
-                                "Accept": "application/json",
-                                "content-Type": "application/json"
-                            },
-                            body: JSON.stringify({value2: event.target.value})
-                        }
-
-                        //Dispatch to api
-                        fetch("api/users", options)
-                        .then((response) => { return response.json();})
-                        .then(
-                            (data) => {
-                                while (passwordinput.firstChild) {passwordinput.removeChild(passwordinput.firstChild);}
-                                data.password.foreach((v) => {passwordinput.insertRow().insertCell().append(v.toString());})
-                            }
-                        );
-
                     }
                 )
             }
