@@ -5,17 +5,17 @@ const crypto = require("crypto");
 
 // Instantiate
 const application = express();
-//const numbers = {};
+const numbers = {};
 const users = {};
 
 // Load data
-//files.readFile(
-    //__dirname + "/../data/numbers.json",
-    //(_, data) => {
-        //Object.assign(numbers, JSON.parse(data));
-        //console.log("Numbers database read.");
-    //}
-///);
+files.readFile(
+    __dirname + "/../data/numbers.json",
+    (_, data) => {
+        Object.assign(numbers, JSON.parse(data));
+        console.log("Numbers database read.");
+    }
+);
 
 //Load Email and Password data
 files.readFile(
@@ -23,7 +23,6 @@ files.readFile(
     (_, data) => {
         Object.assign(users, JSON.parse(data));
         console.log("Email and Password database read.");
-        
     }
 )
 
@@ -34,37 +33,37 @@ application.use(
 );
 
 // List numbers
-//application.get(
-    //"/api/numbers",
-    //(request, response) => {
-        //response.status(200);
-        //response.json({ values: numbers.data });
-        //console.log("Get numbers.");
-    //}
-//);
+application.get(
+    "/api/numbers",
+    (request, response) => {
+        response.status(200);
+        response.json({ values: numbers.data });
+        console.log("Get numbers.");
+    }
+);
 
 // Push number
-//application.post(
-    //"/api/number",
-    //(request, response) => {
-        //if (isFinite(request.body.value) && numbers.data.length < 1024) {
-            //numbers.data.push(Number(request.body.value));
-            //files.writeFile(
-                //__dirname + "/../data/numbers.json",
-                //JSON.stringify(numbers, null, 4),
-                //(_) => {
-                    //console.log("Numbers database saved.");
-                //}
-            //);
-        //}
-        //response.status(200);
-        //response.json({ values: numbers.data });
-        //console.log("Push number."); 
-    //}
-//);
+application.post(
+    "/api/number",
+    (request, response) => {
+        if (isFinite(request.body.value) && numbers.data.length < 1024) {
+            numbers.data.push(Number(request.body.value));
+            files.writeFile(
+                __dirname + "/../data/numbers.json",
+                JSON.stringify(numbers, null, 4),
+                (_) => {
+                    console.log("Numbers database saved.");
+                }
+            );
+        }
+        response.status(200);
+        response.json({ values: numbers.data });
+        console.log("Push number."); 
+    }
+);
 
 //Push Email and Password
-application.post(
+/*application.post(
     "/api/user",
     (request, response) => {
         var hash = crypto.createHash('md5').update(request.body.value2).digest('hex');
@@ -81,7 +80,7 @@ application.post(
                 );
                 response.json({ datacred: "Credentials Created"});
                 console.log("Emails don't match.");
-        }else {
+        } else {
                 var passworddata = credentials.password;
 
                 if(passworddata == hash) {
@@ -95,13 +94,15 @@ application.post(
         response.status(200);
         console.log("Post Email and Password.");
     }
-);
+);*/
 
 // Root path
 application.use(
     "/",
-    express.static(__dirname + "/public"),
-    
+    express.static(
+        __dirname + "/public",
+        { extensions: [ "html" ] }
+    )
 );
 
 // Not Found

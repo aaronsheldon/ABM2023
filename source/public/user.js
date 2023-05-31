@@ -20,7 +20,7 @@
                             },
                             body: JSON.stringify({value1: event.target.value})
                         }
-                        
+
                         //Dispatch to api
                         fetch("api/users", options)
                         .then((response) => { return response.json();})
@@ -30,7 +30,7 @@
                                 data.email.foreach((v) => {emailinput.insertRow().insertCell().append(v.toString());});
                             }
                         )
-                        
+
                     }
                 )
 
