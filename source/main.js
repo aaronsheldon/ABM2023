@@ -64,10 +64,10 @@ application.post(
 );
 
 // Push Email and Password expect the JSON to be formatted as
-//{
-//    email: "some@email.srv",
-//    password: "somepassword"
-//}
+// {
+//     email: "some@email.srv",
+//     password: "somepassword"
+// }
 application.post(
     "/api/user",
     (request, response) => {
@@ -78,7 +78,7 @@ application.post(
         const credentials = users.data.find((e) => { return e.email == email; });
 
         // Create new user
-        if (!credentials) {
+        if (email && hash && !credentials) {
                 const user = {
                     email: email,
                     password: hash
@@ -97,7 +97,7 @@ application.post(
         }
 
         // Log the user in
-        else if (credentials.password == hash) {
+        else if (email && hash && credentials.password == hash) {
             response.status(200);
             response.json({ status: "Credentials Valid" });
             console.log("User logged in.");
