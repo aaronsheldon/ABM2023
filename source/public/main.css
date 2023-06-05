@@ -1,0 +1,75 @@
+*:not(title){
+    padding: 8px;
+    display: block;  
+}
+
+body {
+    background-color: lightgrey;
+}
+
+.form{
+    background-color: darkgray;
+    zoom:1.5;
+    width:322px;
+    position: relative;
+    top:60px;
+    left:50%;
+    transform: translate(-50%);
+    
+}
+
+.output {
+    zoom:1.5;
+    width:322px;
+    height:50px;
+    position: relative;
+    top:60px;
+    left:50%;
+    transform: translate(-50%);
+}
+
+#submitinput {
+    margin-top:10px;
+    position: relative;
+    left:37%;
+}
+
+#emailinput {
+    width:300px;
+}
+
+#passwordinput {
+    width:300px;
+}
+
+#statusoutput {
+    text-align:center;
+    color:red;
+    
+}
+
+.numberinput {
+    zoom:1.5;
+    width:322px;
+    height:50px;
+    position: relative;
+    top:60px;
+    left:55%;
+    transform: translate(-50%);
+}
+
+.numberoutput {
+    zoom:1.5;
+    width:322px;
+    height:50px;
+    position: relative;
+    top:60px;
+    left:55%;
+    transform: translate(-50%);
+    text-align: center;
+}
+
+.header {
+    position:relative;
+    left:-25%;
+}
